@@ -232,50 +232,50 @@ export async function DocumentUploads(req, res) {
         console.log(UploadMaterial)
 
 
-        const students =
-            await StudentModel.find({
-                semester: req.body.semester,
-                branch: teacherAccount.department,
-            }).populate("userId");
+        // const students =
+        //     await StudentModel.find({
+        //         semester: req.body.semester,
+        //         branch: teacherAccount.department,
+        //     }).populate("userId");
 
-        const tokens = students
-            .map(
-                (student) =>
-                    student.userId?.expoPushToken
-            )
-            .filter(Boolean);
+        // const tokens = students
+        //     .map(
+        //         (student) =>
+        //             student.userId?.expoPushToken
+        //     )
+        //     .filter(Boolean);
 
-        console.log("Tokens =", tokens);
+        // console.log("Tokens =", tokens);
 
-        if (tokens.length > 0) {
-            await sendPushNotification(
-                tokens,
-                "📚 New Study Material",
-                `${req.body.title} uploaded`
-            );
-        }
+        // if (tokens.length > 0) {
+        //     await sendPushNotification(
+        //         tokens,
+        //         "📚 New Study Material",
+        //         `${req.body.title} uploaded`
+        //     );
+        // }
 
         fs.unlinkSync(req.file.path);
-        const messages = await client.getMessages("me", {
+        // const messages = await client.getMessages("me", {
 
-            ids: [58]
+        //     ids: [58]
 
-        });
-        console.log(messages)
-        const buffer = await client.downloadMedia(
+        // });
+        // console.log(messages)
+        // const buffer = await client.downloadMedia(
 
-            messages[0]
+        //     messages[0]
 
-        );
-        fs.writeFileSync(
+        // // );
+        // fs.writeFileSync(
 
-            "./downloaded.pdf",
+        //     "./downloaded.pdf",
 
-            buffer
+        //     buffer
 
-        );
+        // );
 
-        console.log("buffeer data =", buffer)
+        // console.log("buffeer data =", buffer)
 
         res.json({
             success: true,
