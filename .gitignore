@@ -1,6 +1,4 @@
 node_modules/
 .env
-uploads/*
-!.gitkeep
 downloaded.pdf
 *.mp4
