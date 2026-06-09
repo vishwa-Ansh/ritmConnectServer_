@@ -203,7 +203,7 @@ export async function StudentProfileDetails(req, res) {
 export async function DocumentUploads(req, res) {
 
     try {
-
+        console.log("===== UPLOAD START =====");
         console.log(req.file)
         console.log(req.body)
         const messageId = await uploadFile(
