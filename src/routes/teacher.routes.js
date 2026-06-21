@@ -9,7 +9,22 @@ routes.get("/getCompleteProfileDetails", verifyToken,teacherController.GetComple
 routes.post('/createTeacherProfileData', verifyToken, teacherController.CreateCompleteTeacherProfileData);
 routes.get('/students-images/:sem', verifyToken,teacherController.getAllStudentProfilePhoto)
 routes.get('/studentProfile/:rollNumber',verifyToken,teacherController.StudentProfileDetails)
-routes.post("/upload",verifyToken, telegramUpload.single("file"),teacherController.DocumentUploads)
+
+
+// routes.post("/upload",verifyToken, telegramUpload.single("file"),teacherController.DocumentUploads)
+
+routes.post(
+  "/upload",
+  (req,res,next)=>{
+    console.log("STEP 1 ROUTE HIT");
+    next();
+  },
+  verifyToken,
+  telegramUpload.single("file"),
+  teacherController.DocumentUploads
+);
+
+
 routes.get("/getSubject",verifyToken,teacherController.GetAllSubject)
  export default routes;
 

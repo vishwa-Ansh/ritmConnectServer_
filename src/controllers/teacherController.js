@@ -206,6 +206,7 @@ export async function DocumentUploads(req, res) {
         console.log("===== UPLOAD START =====");
         console.log(req.file)
         console.log(req.body)
+        console.log(req.file.path)
         const messageId = await uploadFile(
             client,
             req.file.path

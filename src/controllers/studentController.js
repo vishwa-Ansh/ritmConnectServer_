@@ -119,6 +119,7 @@ export async function get_profile(req, res) {
                 branch: users.branch,
                 semester: users.semester,
                 course: users.course,
+                batch:users.batch,
                 phone: users.phone,
                 address: users.address,
                 gender: users.gender,

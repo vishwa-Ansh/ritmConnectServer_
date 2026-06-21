@@ -130,10 +130,29 @@
 
 // })();
 
+// import { TelegramClient } from "telegram";
+// import { StringSession } from "telegram/sessions/index.js";
+// const apiId = 36959988;
+// const apiHash = "558c0dbf14c51d7c26a72a2aaa741c44";
+
+// const stringSession = new 
+
+// export const client = new TelegramClient(
+//   stringSession,
+//   apiId,
+//   apiHash,
+//   {
+//     connectionRetries: 5,
+//   }
+// );
+// await client.start();
+// console.log("Telegram Connected!");
+
 import { TelegramClient } from "telegram";
 import { StringSession } from "telegram/sessions/index.js";
+
 const apiId = 36959988;
-const apiHash = "558c0dbf14c51d7c26a72a2aaa741c44";
+const apiHash = "YOUR_API_HASH";
 
 const stringSession = new StringSession("1BQANOTEuMTA4LjU2LjEyMAG7LAFU9Vvu7yyzC1X5YC7BxtOCzr+V/WEtRp4t+Paw6KUNH2SfNNbL3cVFXUZZzpUfLi8Hoz7VmdX/Gk9/PFmHkH/enH5vO0mQC8WR3WIGGPsVPpM0tFgslXoYte8zcBTLj/adKKuBOJ5Rwks+Wa/t7ZA24RhToV06oQ410VcLAFDteJynlpU6AilcGxjgMkeKzjtT8Kyi3zrx51WeEHsjBvyIXUzJ3BVfa8gzfpmdTAPrzRhHPDMEg4dtMcg3F+MLe4lq4FcyiDfMcG15E7x6/br01mNrU8HesmPcOPQfZVrxyoR3aacZnJYtovrQB5e0hxhmyyMyMdmBiJNjwv1t2w==");
 
@@ -145,5 +164,12 @@ export const client = new TelegramClient(
     connectionRetries: 5,
   }
 );
-await client.start();
-console.log("Telegram Connected!");
+
+export async function connectTelegram() {
+  try {
+    await client.start();
+    console.log("Telegram Connected!");
+  } catch (error) {
+    console.error("Telegram connection failed:", error.message);
+  }
+}
