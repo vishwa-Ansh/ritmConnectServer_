@@ -50,6 +50,42 @@ export async function SetPassword(req, res) {
 }
 
 export async function UpdatePassword (req, res) {
-    
+    try {
+        const userId = req?.user?.id;
+        if (!userId) {
+            return res.status(401).json({
+                success: false,
+                message: "Unauthorized",
+            });
+        }
+        const { password, section } = req?.body;
+        if (!password || password.length < 6) {
+            return res.status(400).json({
+                success: false,
+                message: "Password must be at least 6 characters long",
+            });
+        }
+        const existingPermissionKey = await PermissionKey.findOne({ section: section });
+        if (!existingPermissionKey) {
+            return res.status(404).json({
+                success: false,
+                message: "No existing password for this section",
+            });
+        } else {
+            existingPermissionKey.key = password;
+            await existingPermissionKey.save();
+            return res.status(200).json({
+                success: true,
+                message: "Password updated successfully",
+            });
+        }
+    } catch (err){
+        console.log(err);
+        return res.status(500).json({
+            success: false,
+            message: "Server error",
+        });
+    }
+
 
 }
