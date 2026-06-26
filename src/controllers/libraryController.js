@@ -2,7 +2,14 @@ import Book from "../models/bookmodel.js";
 
 export const addBook = async (req, res) => {
   try {
-     const user= req.user;
+    const user = req?.user?.id;
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized",
+      });
+    }
+    //  const user= req.user;
     if (req.params.docType !== "books") {
       return res.status(400).json({
         success: false,
@@ -21,19 +28,19 @@ export const addBook = async (req, res) => {
       description,
     } = req.body;
 
-  const images = req.files.map((file, index) => ({
-  uri: file.path,
-  publicId: file.filename,
-  label:
-    index === 0
-      ? "Front cover"
-      : index === 1
-      ? "Back cover"
-      : "Photo",
-}));
+    const images = req.files.map((file, index) => ({
+      uri: file.path,
+      publicId: file.filename,
+      label:
+        index === 0
+          ? "Front cover"
+          : index === 1
+            ? "Back cover"
+            : "Photo",
+    }));
 
     const book = await Book.create({
-        userId: user._id,
+      userId: user._id,
       title,
       author,
       branch,
@@ -53,22 +60,40 @@ export const addBook = async (req, res) => {
       book,
     });
   } catch (err) {
-  console.log(err);
-  console.log(err.errors);
+    console.log(err);
+    console.log(err.errors);
 
-  return res.status(500).json({
-    success: false,
-    message: err.message,
-  });
-}
+    return res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
 };
 
 
 export const getBooks = async (req, res) => {
   try {
+    const user = req?.user?.id;
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized",
+      });
+    }
+    if (req.params.docType !== "books") {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid docType",
+      });
+    }
     const books = await Book.find().sort({ createdAt: -1 });
-
-    res.json({
+    if (!books) {
+      return res.status(404).json({
+        success: false,
+        message: "No books found",
+      });
+    }
+    res.status(200).json({
       success: true,
       books,
     });
